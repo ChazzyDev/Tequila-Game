@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Tequila Clicker</title>
-   <link rel="icon" href="https://png.pngtree.com/png-vector/20230923/ourmid/pngtree-tequila-white-gold-thirsty-png-image_10062670.png" type="image/png">
+  <link rel="icon" href="https://png.pngtree.com/png-vector/20230923/ourmid/pngtree-tequila-white-gold-thirsty-png-image_10062670.png" type="image/png">
   <style>
     body {
       background-color: #fff7cc;
@@ -112,7 +112,7 @@
       document.getElementById('sound3')
     ];
 
-    cookie.addEventListener('mousedown', () => {
+    function handleClickStart() {
       cookie.src = pressedCookie;
 
       const randomSound = sounds[Math.floor(Math.random() * sounds.length)];
@@ -121,15 +121,23 @@
 
       clicks++;
       counter.textContent = `Clicks: ${clicks}`;
-    });
+    }
 
-    cookie.addEventListener('mouseup', () => {
+    function handleClickEnd() {
       cookie.src = normalCookie;
-    });
+    }
 
-    cookie.addEventListener('mouseleave', () => {
-      cookie.src = normalCookie;
+    // Mouse events for desktop
+    cookie.addEventListener('mousedown', handleClickStart);
+    cookie.addEventListener('mouseup', handleClickEnd);
+    cookie.addEventListener('mouseleave', handleClickEnd);
+
+    // Touch events for mobile/tablet
+    cookie.addEventListener('touchstart', (e) => {
+      e.preventDefault(); // prevent double triggering
+      handleClickStart();
     });
+    cookie.addEventListener('touchend', handleClickEnd);
 
     // Falling image function
     function spawnFallingImage() {
