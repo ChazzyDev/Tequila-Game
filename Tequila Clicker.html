@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Tequila Clicker</title>
+   <link rel="icon" href="https://png.pngtree.com/png-vector/20230923/ourmid/pngtree-tequila-white-gold-thirsty-png-image_10062670.png" type="image/png">
+  <style>
+    body {
+      background-color: #fff7cc;
+      font-family: 'Segoe UI', sans-serif;
+      text-align: center;
+      padding-top: 60px;
+      color: #333;
+      overflow-x: hidden;
+    }
+
+    h1 {
+      color: #d4a100;
+      font-size: 3em;
+      margin-bottom: 20px;
+      text-shadow: 1px 1px #fff0a6;
+    }
+
+    #cookie {
+      width: 220px;
+      height: 220px;
+      cursor: pointer;
+      border-radius: 50%;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      transition: transform 0.1s ease, box-shadow 0.2s ease;
+      object-fit: cover;
+    }
+
+    #cookie:active {
+      transform: scale(0.95);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    #counter {
+      font-size: 24px;
+      margin-top: 20px;
+      color: #a87300;
+    }
+
+    .container {
+      background: #fffbe0;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      display: inline-block;
+      z-index: 10;
+      position: relative;
+    }
+
+    /* Falling image styles */
+    #falling-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    .falling-image {
+      position: absolute;
+      width: 50px;
+      animation: fall 6s linear forwards;
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translateY(-100px) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(110vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Tequila Clicker</h1>
+    <img id="cookie" 
+         src="https://media.tenor.com/vvDBcPwg2-8AAAAM/mommy-oni-toni-fowler.gif" 
+         alt="Cookie">
+    <div id="counter">Clicks: 0</div>
+  </div>
+
+  <div id="falling-container"></div>
+
+  <!-- Sound Effects -->
+  <audio id="sound1" src="tikila.mp3" preload="auto"></audio>
+  <audio id="sound2" src="dilah.mp3" preload="auto"></audio>
+  <audio id="sound3" src="lemon.mp3" preload="auto"></audio>
+
+  <script>
+    let clicks = 0;
+    const cookie = document.getElementById('cookie');
+    const counter = document.getElementById('counter');
+
+    const normalCookie = "https://media.tenor.com/vvDBcPwg2-8AAAAM/mommy-oni-toni-fowler.gif";
+    const pressedCookie = "Twerk.gif"; // Ensure this exists
+
+    const sounds = [
+      document.getElementById('sound1'),
+      document.getElementById('sound2'),
+      document.getElementById('sound3')
+    ];
+
+    cookie.addEventListener('mousedown', () => {
+      cookie.src = pressedCookie;
+
+      const randomSound = sounds[Math.floor(Math.random() * sounds.length)];
+      randomSound.currentTime = 0;
+      randomSound.play();
+
+      clicks++;
+      counter.textContent = `Clicks: ${clicks}`;
+    });
+
+    cookie.addEventListener('mouseup', () => {
+      cookie.src = normalCookie;
+    });
+
+    cookie.addEventListener('mouseleave', () => {
+      cookie.src = normalCookie;
+    });
+
+    // Falling image function
+    function spawnFallingImage() {
+      const img = document.createElement('img');
+      img.src = 'https://png.pngtree.com/png-vector/20230923/ourmid/pngtree-tequila-white-gold-thirsty-png-image_10062670.png'; 
+      img.className = 'falling-image';
+      img.style.left = Math.random() * window.innerWidth + 'px';
+      document.getElementById('falling-container').appendChild(img);
+
+      setTimeout(() => img.remove(), 6000);
+    }
+
+    setInterval(spawnFallingImage, 3000);
+  </script>
+</body>
+</html>
